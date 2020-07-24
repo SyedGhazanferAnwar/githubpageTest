@@ -322,6 +322,110 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponseGetSuppliersList"
+  
+  /part/add:
+    post:
+      tags:
+      - "Add new parts"
+      summary: "The endpoint will let you add a part."
+      parameters:
+        - name: Authorization
+          in: header
+          description: authToken retrieved in previous auth request, Every new request to Auth will expire previous authToken and generate a new one.
+          required: true
+          type: string
+        - in: "body"
+          name: "body"
+          description: >
+            The endpoint will let you add a part.
+          required: true
+          schema:
+            type: object
+            properties:
+              Vendor:
+                type: string
+                example: "Mckesson"
+              VendorPartNumber:
+                type: string
+                example: "0"
+              ItemId:
+                type: string
+                example: "0"
+              LeadTime:
+                type: integer
+                example: "0"
+              DefaultVendor:
+                type: boolean
+                example: "0"
+              UOM:
+                type: string
+                example: "ea"
+              Cost:
+                type: integer
+                example: 10
+              MinQuantity:
+                type: integer
+                example: 1
+              Active:
+                type: boolean
+              Description:
+                type: string
+              ManufacturerId:
+                type: string
+              ManufacturerName:
+                type: string
+                example: "Wesley Trading"
+              ItemDetails:
+                type: string
+              UOMs:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    CartonCount:
+                      type: string
+                    CartonType:
+                      type: string
+                    Cost:
+                      type: string
+                    Height:
+                      type: string
+                    ItemAvailability:
+                      type: string
+                    ItemsAvailable:
+                      type: string
+                    Length:
+                      type: string
+                    MinQuantity:
+                      type: string
+                    PartId:
+                      type: string
+                    Per:
+                      type: string
+                    SizeUOM:
+                      type: string
+                    Status:
+                      type: string
+                    UOM:
+                      type: string
+                    Weight:
+                      type: string
+                    WeightUOM:
+                      type: string
+                    Width:
+                      type: string
+                      
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponseGetSuppliersList"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponseGetSuppliersList"
 # complex objects have schema definitions
 definitions:
   SuccessResponseGetSuppliersList:

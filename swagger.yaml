@@ -586,8 +586,86 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponseAddProduct"
             
+  /search/parts:
+    post:
+      tags:
+      - "Search parts"
+      summary: "The endpoint to search through the parts, and used the partid(PartNumber) and uomid(PartUOM) while creating the product."
+      parameters:
+        - name: Authorization
+          in: header
+          description: authToken retrieved in previous auth request, Every new request to Auth will expire previous authToken and generate a new one.
+          required: true
+          type: string
+        - in: "body"
+          name: "body"
+          description: >
+            The endpoint to search through the parts, and used the partid(PartNumber) and uomid(PartUOM) while creating the product. 
+          required: true
+          schema:
+            type: object
+            properties:
+              Keyword:
+                type: string
+                example: "part name"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponseSearchParts"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponseSearchParts"
+
 # complex objects have schema definitions
 definitions:
+  SuccessResponseSearchParts:
+    properties:
+      parts:
+        type: array
+        items: 
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 3145
+            ManufacturerName:
+              type: string
+              example: "AmericanDiagnosticCorporation"
+            ManufacturerId: 
+              type: string
+              example: "768-641-11AAD"
+            DefaultVendor: 
+              type: boolean
+              example: true
+            UOMs:
+              type: array
+              items: 
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 345
+                  Status:
+                    type: string
+                    example: "active"
+                  Cost:
+                    type: number
+                    example: 10
+                  PartId:
+                    type: integer
+                    example: 3145
+
+  ErrorResponseSearchParts:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        example: "Please specify a keyword"
   SuccessResponseGetSuppliers:
     properties:
       vendors:

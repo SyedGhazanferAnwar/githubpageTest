@@ -488,7 +488,7 @@ paths:
         - in: "body"
           name: "body"
           description: >
-            The endpoint will let you add a part. Here 'Vendor', 'Manufacture Name' must be a valid from supplier/getsuppliers API, similarly 'UOM' must also be a valid values from the Uom/getUOMs endpoint.  
+            The endpoint will let you add a product. Here 'PartNumber', 'PartUOM' must be a valid from search/parts API, similarly 'UOM' must also be a valid values from the Uom/getUOMs endpoint.  
           required: true
           schema:
             type: object
@@ -605,7 +605,7 @@ paths:
           schema:
             type: object
             properties:
-              Keyword:
+              keyword:
                 type: string
                 example: "part name"
       responses:

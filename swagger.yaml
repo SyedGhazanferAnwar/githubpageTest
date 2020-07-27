@@ -337,7 +337,7 @@ paths:
         - in: "body"
           name: "body"
           description: >
-            The endpoint will let you add a part.
+            The endpoint will let you add a part. Here 'Vendor', 'Manufacture Name' must be a valid from supplier/getlist API, similarly 'UOM' must also be a valid values from the Uom/getUOMs endpoint.  
           required: true
           schema:
             type: object
@@ -353,10 +353,10 @@ paths:
                 example: "0"
               LeadTime:
                 type: integer
-                example: "0"
+                example: 2
               DefaultVendor:
                 type: boolean
-                example: "0"
+                example: true
               UOM:
                 type: string
                 example: "ea"
@@ -365,9 +365,10 @@ paths:
                 example: 10
               MinQuantity:
                 type: integer
-                example: 1
+                example: 0
               Active:
                 type: boolean
+                example: true
               Description:
                 type: string
               ManufacturerId:
@@ -377,57 +378,140 @@ paths:
                 example: "Wesley Trading"
               ItemDetails:
                 type: string
+              Status:
+                type: string
+                enum: ["active","Not active"]
               UOMs:
                 type: array
                 items: 
                   type: object
                   properties:
                     CartonCount:
-                      type: string
+                      type: integer
                     CartonType:
                       type: string
                     Cost:
                       type: string
+                      example: "10"
                     Height:
-                      type: string
+                      type: integer
+                      example: 0
                     ItemAvailability:
-                      type: string
+                      type: boolean
+                      default: false
                     ItemsAvailable:
-                      type: string
+                      type: integer
+                      default: 0
                     Length:
-                      type: string
+                      type: number
                     MinQuantity:
-                      type: string
+                      type: integer
+                      example: 0
                     PartId:
-                      type: string
+                      type: integer
                     Per:
-                      type: string
+                      type: integer
+                      example: 1
                     SizeUOM:
                       type: string
+                      example: "in"
                     Status:
                       type: string
+                      enum: ["active","Not active"]
                     UOM:
                       type: string
+                      example: "EA"
                     Weight:
-                      type: string
+                      type: integer
+                      example: 0
                     WeightUOM:
                       type: string
+                      example: "lbs"
                     Width:
-                      type: string
-                      
+                      type: integer
+                      default: 0
       responses:
         "200":
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/SuccessResponseGetSuppliersList"
+            $ref: "#/definitions/SuccessResponseAddPart"
         # responses may fall through to errors
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponseGetSuppliersList"
+            $ref: "#/definitions/ErrorResponseAddPart"
+            
+  /uom/getUomList:
+    post:
+      tags:
+      - "Get List of available UOMs"
+      summary: "The endpoint to retrieve the list of availble UOMs for usage in add Part."
+      parameters:
+        - name: Authorization
+          in: header
+          description: authToken retrieved in previous auth request, Every new request to Auth will expire previous authToken and generate a new one.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponseGetUOM"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponseGetUOM"
+          
 # complex objects have schema definitions
 definitions:
+  SuccessResponseGetUOM:
+    properties:
+      UOMs:
+        type: array
+        items: 
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 10
+            Name:
+              type: string
+              example: "bx100"
+            UOM:
+              type: string
+              example: "bx100"
+            per:
+              type: integer
+              example: 100
+            createdAt:
+              type: string
+            updatedAt:
+              type: string
+            
+  ErrorResponseGetUOM:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        example: "Unauthorized"
+  SuccessResponseAddPart:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        example: "Part added Successfully"
+  ErrorResponseAddPart:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        example: "Unauthorized"
   SuccessResponseGetSuppliersList:
     required:
       - products

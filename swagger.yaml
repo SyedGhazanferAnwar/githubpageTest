@@ -488,7 +488,7 @@ paths:
         - in: "body"
           name: "body"
           description: >
-            The endpoint will let you add a product. Here 'PartNumber', 'PartUOM' must be a valid from search/parts API, similarly 'UOM' must also be a valid values from the Uom/getUOMs endpoint.  
+            The endpoint will let you add a product. Here 'PartNumber', 'PartUOM' must be a valid from search/parts API, similarly 'UOM' must also be a valid values from the Uom/getUOMs endpoint. The ProductPictureUrl will be a stringified(JSON.stringify(array)) json array of all images urls.
           required: true
           schema:
             type: object
